@@ -1,22 +1,22 @@
-# CALCULADORA BÁSICA
+#CALCULADORA
 
 from lark import Lark, Transformer, v_args
 
 calc_grammar = """
     ?start: sum
-          | NAME "=" sum    -> definir variável
+          | NAME "=" sum    -> assign_var
 
     ?sum: product
         | sum "+" product   -> soma
-        | sum "-" product   -> subtração
+        | sum "-" product   -> subtracao
 
     ?product: atom
-        | product "*" atom  -> multiplicação
-        | product "/" atom  -> divisão
+        | product "*" atom  -> multiplicacao
+        | product "/" atom  -> divisao
 
-    ?atom: NUMBER           -> número
+    ?atom: NUMBER           -> numero
          | "-" atom         -> negativo
-         | NAME             -> variável
+         | NAME             -> variavel
          | "(" sum ")"
 
     %import common.CNAME -> NAME
@@ -27,7 +27,7 @@ calc_grammar = """
 """
 
 
-@v_args(inline=True)
+@v_args(inline=True) 
 class CalculateTree(Transformer):
     from operator import add, sub, mul, truediv as div, neg
     number = float
@@ -43,7 +43,7 @@ class CalculateTree(Transformer):
         try:
             return self.vars[name]
         except KeyError:
-            raise Exception("Variable not found: %s" % name)
+            raise Exception("Variável não encontrada: %s" % name)
 
 
 calc_parser = Lark(calc_grammar, parser='lalr', transformer=CalculateTree())
@@ -59,5 +59,5 @@ def main():
         print(calc(s))
 
 if __name__ == '__main__':
-    # test()
+
     main()
