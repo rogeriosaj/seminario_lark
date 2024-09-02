@@ -4,7 +4,7 @@ from lark import Lark, Transformer, v_args
 
 calc_grammar = """
     ?start: sum
-          | NAME "=" sum    -> atrib var
+          | NAME "=" sum    -> assign_var
 
     ?sum: product
         | sum "+" product   -> soma
